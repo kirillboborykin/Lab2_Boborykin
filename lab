@@ -1,0 +1,60 @@
+from enum import Enum
+
+
+class CoffeeType(Enum):
+    """
+    Перечисление видов кофе,
+    которые можно приготовить
+    """
+    ESPRESSO = 0,
+    CAPPUCCINO = 1,
+    AMERICANO = 2,
+    LATTE = 3
+
+class Coffee:
+    """
+    Базовый класс для кофе
+    """
+    def __init__(self, price: float):
+        self.__price = price # цена кофе
+
+    def get_price(self) -> float:
+        return self.__price
+
+
+class CoffeeEspresso(Coffee):
+    def __init__(self):
+        super().__init__(3.5)
+
+
+class CoffeeCappuccino(Coffee):
+    def __init__(self):
+        super().__init__(5.5)
+
+
+class CoffeeAmericano(Coffee):
+    def __init__(self):
+        super().__init__(7)
+
+class CoffeeLatte(Coffee):
+    def __init__(self):
+        super().__init__(4.5)
+
+
+def create_coffee(coffee_type: CoffeeType) -> Coffee:
+    """
+    Factory Method
+    """
+    factory_dict = {
+        CoffeeType.ESPRESSO:  CoffeeEspresso,
+        CoffeeType.AMERICANO: CoffeeAmericano,
+        CoffeeType.CAPPUCCINO: CoffeeCappuccino,
+        CoffeeType.LATTE: CoffeeLatte
+    }
+    return factory_dict[coffee_type]()
+
+
+if __name__ == '__main__':
+    for Coffee in CoffeeType:
+        my_coffee = create_coffee(Coffee)
+        print(f'Coffee type: {Coffee}, price: {my_coffee.get_price()}')
